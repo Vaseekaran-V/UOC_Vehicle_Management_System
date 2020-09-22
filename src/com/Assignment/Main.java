@@ -118,6 +118,7 @@ public class Main implements Admin_Interface {
 
             case 3:
                 System.out.println("You have chosen to delete a Vehicle");
+                deleteVehicleProcess();
                 break;
 
             case 4:
@@ -145,21 +146,49 @@ public class Main implements Admin_Interface {
         return plates;
     }
 
-    //checking if there is an existing plate when a new plate is added
+    //checking if there is an existing plate
     public boolean checkPlateExist(String newPlate){
         ArrayList<String> plates = platesOfVehicles();
         for(String plate:plates){
             if(plate.equals(newPlate)){
-                System.out.println("The plate already exists in the system.");
+                System.out.println("A vehicle with the plate " + newPlate + " exists in the system.");
                 return true;
             }
         }
         return false;
     }
 
+    public void deleteVehicleProcess(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("The vehicles present in the system");
+        viewVehicles();
+
+        System.out.println("Enter the plate of the vehicle you want to delete: ");
+        String plate = sc.nextLine();
+
+        if(checkPlateExist(plate)){
+            System.out.println("Deleting the vehicle with the plate " + plate + "...");
+            findAndDelete(plate);
+            System.out.println("The vehicle with the plate " + plate + " is deleted from the system successfully");
+        }else{
+            System.out.println("The plate you have entered is not in the system");
+        }
+
+        displayMenu();
+
+    }
+
+    public void findAndDelete(String plate){
+        for(int i = 0; i < vehicleList.size(); i++){
+            if(vehicleList.get(i).getPlate().equals(plate)){
+                vehicleList.remove(i);
+            }
+        }
+    }
+
     //process of adding a vehicle to the system
     public void addVehicleProcess(){
-        Scanner sc = new Scanner(System.in);
 
         String plate = inputPlate();
         String make = inputMake();
@@ -451,13 +480,15 @@ public class Main implements Admin_Interface {
     }
 
     public static void main(String[] args) {
-//        Vehicle v1 = new Car("123", "Audi", "M2", 123, 2,4,2,true, true);
-//        System.out.println(v1 instanceof Vehicle);
-//        System.out.println(v1 instanceof Car);
-//        System.out.println(v1 instanceof Bike);
-//        Bike c1 = (Bike) v1;
-//        c1.isHelmet();
+        //initializing some vehicle objects to add to the list
+        Vehicle v1 = new Car("anc", "Audi", "M2", 123, 2,4,2,true, true);
+        Vehicle car1 = new Car("123", "aa", "b", 122, 2, 4, 2, true, true);
+
         Main main = new Main();
+        //adding the initialized vehicles
+        main.addVehicle(car1);
+        main.addVehicle(v1);
+
         main.displayMenu();
     }
 }
