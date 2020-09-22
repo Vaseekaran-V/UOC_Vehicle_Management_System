@@ -1,5 +1,6 @@
 package com.Assignment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class Main implements Admin_Interface {
         vehicleList.remove(vehicle);
     }
 
+    //code to view the vehicles in the running system
     @Override
     public void viewVehicles() {
         ArrayList<Car> cars = new ArrayList<>();
@@ -29,16 +31,49 @@ public class Main implements Admin_Interface {
             }
         }
 
-        for(Car car: cars){
-            System.out.println(car);
-        }
+        System.out.format("+----------------+----------------+-----------------+%n");
+        System.out.format("|----------------|----VEHICLES----|-----------------|%n");
 
-        for(Bike bike: bikes){
-            System.out.println(bike);
-        }
+        displayCars(cars);
+        displayBikes(bikes);
 
         cars.clear();
         bikes.clear();
+    }
+
+    //code to view the cars in the system: method is called in viewVehicles method
+    public void displayCars(ArrayList<Car> cars){
+        String leftAlignFormat = "|  %12s  | %13s  |  %13s  |%n";
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|                       CARS                        |%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|  Plate Number  |      Make      |        Model    |%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+
+        for(Car car: cars){
+            System.out.format(leftAlignFormat,car.getPlate(),car.getMake(),car.getModel());
+            System.out.format("|----------------|----------------|-----------------|%n");
+        }
+    }
+
+    //code to view the bikes in the system: method is called in viewVehicles method
+    public void displayBikes(ArrayList<Bike> bikes){
+        String leftAlignFormat = "|  %12s  | %13s  |  %13s  |%n";
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|                      BIKES                        |%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|  Plate Number  |      Make      |        Model    |%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+        System.out.format("|----------------|----------------|-----------------|%n");
+
+        for(Bike bike: bikes){
+            System.out.format(leftAlignFormat,bike.getPlate(),bike.getMake(),bike.getModel());
+            System.out.format("|----------------|----------------|-----------------|%n");
+        }
     }
 
     @Override
@@ -68,6 +103,7 @@ public class Main implements Admin_Interface {
         }
     }
 
+    //switch block to decide on the user input
     public void switchCase(int choice){
         switch(choice){
             case 1:
@@ -99,6 +135,7 @@ public class Main implements Admin_Interface {
         }
     }
 
+    //getting the plate numbers in the system
     public ArrayList<String> platesOfVehicles(){
         ArrayList<String> plates = new ArrayList<>();
         for(Vehicle vehicle: vehicleList){
@@ -108,6 +145,7 @@ public class Main implements Admin_Interface {
         return plates;
     }
 
+    //checking if there is an existing plate when a new plate is added
     public boolean checkPlateExist(String newPlate){
         ArrayList<String> plates = platesOfVehicles();
         for(String plate:plates){
@@ -119,6 +157,7 @@ public class Main implements Admin_Interface {
         return false;
     }
 
+    //process of adding a vehicle to the system
     public void addVehicleProcess(){
         Scanner sc = new Scanner(System.in);
 
@@ -134,6 +173,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code where the user chooses to add a car or a bike
     public void chooseCarOrBikeProcess(int choice,String plate, String make, String model, double ratePerDay ){
         if(choice == 1){
             addCarProcess(plate, make, model, ratePerDay);
@@ -142,16 +182,18 @@ public class Main implements Admin_Interface {
         }
     }
 
+    //code when user wants to add a bike
     private void addBikeProcess(String plate, String make, String model, double ratePerDay) {
         String type = inputTypeOfBike();
         boolean isHelmet = isHelmet();
         boolean isJacket = isJacket();
 
-        Vehicle bike = new Bike(plate, make, model, ratePerDay, type, isHelmet, isJacket);
-        addVehicle(bike);
+        Vehicle bike = new Bike(plate, make, model, ratePerDay, type, isHelmet, isJacket); //creating a vehicle reference object with Bike constructor
+        addVehicle(bike);//adding the created object to the system
         System.out.println("The bike with plate " + bike.getPlate() + " has been added successfully to the system.");
     }
 
+    //code when user wants to add a car
     public void addCarProcess(String plate, String make, String model, double ratePerDay){
         int numOfDoors = inputNumOfDoors();
         int numOfLuggage = inputNumOfLuggage();
@@ -159,12 +201,13 @@ public class Main implements Admin_Interface {
         boolean isAirCon = isAirCon();
         boolean isMusicPlayer = isMusicPlayer();
 
-        Vehicle car = new Car(plate, make, model, ratePerDay, numOfDoors, numOfLuggage, numOfPassengers, isAirCon, isMusicPlayer);
-        addVehicle(car);
+        Vehicle car = new Car(plate, make, model, ratePerDay, numOfDoors, numOfLuggage, numOfPassengers, isAirCon, isMusicPlayer); //creating a vehicle reference object with Car constructor
+        addVehicle(car); //adding the created object to the system
         System.out.println("The car with plate " + car.getPlate() + " has been added successfully to the system.");
 
     }
 
+    //getting the plate number of the vehicle when user inputs a vehicle to the system
     public String inputPlate(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the plate number of the vehicle that you are going to add: ");
@@ -178,6 +221,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the make of the vehicle
     public String inputMake(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the make of the vehicle: ");
@@ -186,6 +230,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the model of the vehicle
     public String inputModel(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the model of the vehicle: ");
@@ -194,8 +239,7 @@ public class Main implements Admin_Interface {
 
     }
 
-
-
+    //code to input the rate per day of the vehicle
     public double inputRatePerDay(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the rate per day for the vehicle: ");
@@ -215,6 +259,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the number of doors in a car
     public int inputNumOfDoors(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number of doors for the car: ");
@@ -234,6 +279,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the number of luggage in a car
     public int inputNumOfLuggage(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number of luggage for the car: ");
@@ -253,6 +299,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the number of passengers in a car
     public int inputNumOfPassengers(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number of passengers for the car: ");
@@ -272,6 +319,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input whether the car has AC
     public boolean isAirCon(){
         Scanner sc = new Scanner(System.in);
         int choice = -1;
@@ -296,6 +344,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input whether the car has a music player
     public boolean isMusicPlayer(){
         Scanner sc = new Scanner(System.in);
         int choice = -1;
@@ -320,6 +369,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input the type of bike
     public String inputTypeOfBike(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the type of the bike: ");
@@ -328,6 +378,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input whether the bike provides helmet
     public boolean isHelmet(){
         Scanner sc = new Scanner(System.in);
         int choice = -1;
@@ -352,6 +403,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to input whether the bike provides a jacket
     public boolean isJacket(){
         Scanner sc = new Scanner(System.in);
         int choice = -1;
@@ -376,6 +428,7 @@ public class Main implements Admin_Interface {
 
     }
 
+    //code to validate the input where the user chooses whether car or bike
     public int chooseCarOrBike(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Press 1 to add a Car || Press 2 to add a Bike");
