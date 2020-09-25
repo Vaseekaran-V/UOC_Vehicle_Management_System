@@ -1,6 +1,5 @@
 package com.Assignment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -77,7 +76,7 @@ public class Main implements Admin_Interface {
     }
 
     @Override
-    public void saveVehicle() {
+    public void openGUI() {
 
     }
 
@@ -182,7 +181,7 @@ public class Main implements Admin_Interface {
     public void findAndDelete(String plate){
         for(int i = 0; i < vehicleList.size(); i++){
             if(vehicleList.get(i).getPlate().equals(plate)){
-                vehicleList.remove(i);
+                deleteVehicle(vehicleList.get(i));
             }
         }
     }
